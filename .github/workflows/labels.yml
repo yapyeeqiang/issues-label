@@ -1,32 +1,19 @@
-name: Import labels
+name: Import open source standard labels
+
 on:
     push:
-        paths:
-            - docs/labels.json
-            - .github/workflows/labels.yml
+        branches: [main]
 
 jobs:
     labels:
         runs-on: ubuntu-latest
 
-        strategy:
-            matrix:
-                node-version: [14.x]
-
         steps:
-            - name: checkout source files
-              uses: actions/checkout@v2
-
-            - name: use node.js v${{ matrix.node-version }}
-              uses: actions/setup-node@v1
+            - uses: actions/setup-node@v2
               with:
-                  node-version: ${{ matrix.node-version }}
-
-            - name: install dependencies
-              run: npm ci
-
-            - name: import labels
-              if: github.ref == 'refs/heads/master'
-              run: |
-                  ghlbl -o yapyeeqiang -r issues-label -t ${{ secrets.GITHUB_TOKEN }} -d
-                  ghlbl -o yapyeeqiang -r issues-label -t ${{ secrets.GITHUB_TOKEN }} -i docs/labels.json
+                  node-version: '14'
+            - uses: EddieHubCommunity/gh-action-open-source-labels@v0.2.2
+              with:
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  owner-name: ${{ github.repository_owner }}
+                  repository-name: ${{ github.event.repository.name }}
