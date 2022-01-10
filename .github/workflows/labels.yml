@@ -2,6 +2,10 @@ name: 'GitHub Issues Label Template'
 
 description: 'Import open source issue labels standards'
 
+on:
+	push:
+		branches: [master]
+
 inputs:
     github-token:
         description: 'GitHub token for repo'
