@@ -32,8 +32,8 @@ jobs:
                   github.event.repository.name }} -t ${{ secrets.GITHUB_TOKEN }}
                   -d
 
-            - name: Import labels from docs/labels.json
-              run:
-                  npx ghlbl -o ${{ github.repository_owner }} -r ${{
-                  github.event.repository.name }} -t ${{ secrets.GITHUB_TOKEN }}
-                  -i docs/labels.json
+            # - name: Import labels from docs/labels.json
+            #   run:
+            #       npx ghlbl -o ${{ github.repository_owner }} -r ${{
+            #       github.event.repository.name }} -t ${{ secrets.GITHUB_TOKEN }}
+            #       -i docs/labels.json
