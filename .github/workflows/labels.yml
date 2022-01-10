@@ -1,47 +1,36 @@
-name: 'GitHub Issues Label Template'
-
-description: 'Import open source issue labels standards'
+name: GitHub Issue Labels Template
 
 on:
-	push:
-		branches: [master]
+    push:
+        branches: [master]
 
-inputs:
-    github-token:
-        description: 'GitHub token for repo'
-        required: true
-    owner-name:
-        description: 'Owner name is user or organization'
-        required: true
-    repository-name:
-        description: 'GitHub repo name'
-        required: true
-    force:
-        description: 'Clear existing labels first'
-        default: true
+jobs:
+    labels:
+        runs-on: ubuntu-latest
 
-runs:
-    using: 'composite'
+        steps:
+            - name: Checkout source files
+            - uses: actions/checkout@v2
 
-    steps:
-        - name: 'install dependency'
-          run: npm install github-label-template
-          shell: bash
+            - name: setup node
+            - uses: actions/setup-node@v2
+              with:
+                  node-version: '14'
 
-        - name: 'delete existing labels'
-          run: |
-              [[ ${{ inputs.force }} = true ]] && npx ghlbl -o ${{ inputs.owner-name }} -r ${{ inputs.repository-name }} -t ${{ inputs.github-token }} -d
-              if [ -z "${{ inputs.force }}" ]
-              then
-                npx ghlbl -o ${{ inputs.owner-name }} -r ${{ inputs.repository-name }} -t ${{ inputs.github-token }} -d
-              else
-                echo -e "Existing labels not removed"
-              fi
-          shell: bash
+            - name: Install dependency
+              run: npm install github-label-template
+              shell: bash
 
-        - name: 'import labels from json file'
-          run:
-              npx ghlbl -o ${{ inputs.owner-name }} -r ${{
-              inputs.repository-name }} -t ${{ inputs.github-token }} -i
-              docs/labels.json
-          shell: bash
+            - name: Delete existing labels
+              run:
+                  npx ghlbl -o ${{ github.repository_owner }} -r ${{
+                  github.event.repository.name }} -t ${{ secrets.GITHUB_TOKEN }}
+                  -d
+              shell: bash
+
+            - name: Import labels from json file
+              run:
+                  npx ghlbl -o ${{ github.repository_owner }} -r ${{
+                  github.event.repository.name }} -t ${{ secrets.GITHUB_TOKEN }}
+                  -i docs/labels.json
+              shell: bash
