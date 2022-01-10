@@ -1,4 +1,4 @@
-name: name: Import labels
+name: Import labels
 on:
     push:
         paths:
