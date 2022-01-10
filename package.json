@@ -1,0 +1,23 @@
+{
+  "name": "issues-label",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yapyeeqiang/issues-label.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yapyeeqiang/issues-label/issues"
+  },
+  "homepage": "https://github.com/yapyeeqiang/issues-label#readme"
+}
