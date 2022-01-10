@@ -1,19 +1,43 @@
-name: Import open source standard labels
+name: 'GitHub Issues Label Template'
 
-on:
-    push:
-        branches: [master]
+description: 'Import open source issue labels standards'
 
-jobs:
-    labels:
-        runs-on: ubuntu-latest
+inputs:
+    github-token:
+        description: 'GitHub token for repo'
+        required: true
+    owner-name:
+        description: 'Owner name is user or organisation'
+        required: true
+    repository-name:
+        description: 'GitHub repo name'
+        required: true
+    force:
+        description: 'Clear existing labels first'
+        default: true
 
-        steps:
-            - uses: actions/setup-node@v2
-              with:
-                  node-version: '14'
-            - uses: EddieHubCommunity/gh-action-open-source-labels@v0.2.2
-              with:
-                  github-token: ${{ secrets.GITHUB_TOKEN }}
-                  owner-name: ${{ github.repository_owner }}
-                  repository-name: ${{ github.event.repository.name }}
+runs:
+    using: 'composite'
+
+    steps:
+        - name: 'install dependency'
+          run: npm install github-label-template
+          shell: bash
+
+        - name: 'delete existing labels'
+          run: |
+              [[ ${{ inputs.force }} = true ]] && npx ghlbl -o ${{ inputs.owner-name }} -r ${{ inputs.repository-name }} -t ${{ inputs.github-token }} -d
+              if [ -z "${{ inputs.force }}" ]
+              then
+                npx ghlbl -o ${{ inputs.owner-name }} -r ${{ inputs.repository-name }} -t ${{ inputs.github-token }} -d
+              else
+                echo -e "Existing labels not removed"
+              fi
+          shell: bash
+
+        - name: 'import labels from json file'
+          run:
+              npx ghlbl -o ${{ inputs.owner-name }} -r ${{
+              inputs.repository-name }} -t ${{ inputs.github-token }} -i
+              docs/labels.json
+          shell: bash
