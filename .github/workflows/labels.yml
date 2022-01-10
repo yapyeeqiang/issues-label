@@ -12,22 +12,28 @@ jobs:
                 node-version: [14.x]
 
         steps:
-            - name: checkout source files
+            - name: Checkout source files
               uses: actions/checkout@v2
 
-            - name: use node.js v${{ matrix.node-version }}
+            - name: Use node.js v${{ matrix.node-version }}
               uses: actions/setup-node@v1
               with:
                   node-version: ${{ matrix.node-version }}
 
-            - name: install dependencies
+            - name: Install dependencies
               run: npm ci
 
-            - name: install github label
+            - name: Install github-label-template
               run: npm install github-label-template
 
-            - name: import labels
-              if: github.ref == 'refs/heads/master'
-              run: |
-                  npx ghlbl -o ${{ github.repository_owner }} -r ${{ github.event.repository.name }} -t ${{ secrets.GITHUB_TOKEN }} -d
-                  npx ghlbl -o ${{ github.repository_owner }} -r ${{ github.event.repository.name }} -t ${{ secrets.GITHUB_TOKEN }} -i docs/labels.json
+            - name: Remove existing labels
+              run:
+                  npx ghlbl -o ${{ github.repository_owner }} -r ${{
+                  github.event.repository.name }} -t ${{ secrets.GITHUB_TOKEN }}
+                  -d
+
+            - name: Import labels from docs/labels.json
+              run:
+                  npx ghlbl -o ${{ github.repository_owner }} -r ${{
+                  github.event.repository.name }} -t ${{ secrets.GITHUB_TOKEN }}
+                  -i docs/labels.json
