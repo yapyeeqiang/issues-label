@@ -3,6 +3,7 @@ on:
     push:
         paths:
             - docs/labels.json
+            - .github/workflows/labels.yml
 
 jobs:
     labels:
