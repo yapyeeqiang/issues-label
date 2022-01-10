@@ -28,5 +28,5 @@ jobs:
             - name: import labels
               if: github.ref == 'refs/heads/master'
               run: |
-                  npx ghlbl -o yapyeeqiang -r issues-label -t ${{ secrets.GITHUB_TOKEN }} -d
-                  npx ghlbl -o yapyeeqiang -r issues-label -t ${{ secrets.GITHUB_TOKEN }} -i docs/labels.json
+                  ghlbl -o yapyeeqiang -r issues-label -t ${{ secrets.GITHUB_TOKEN }} -d
+                  ghlbl -o yapyeeqiang -r issues-label -t ${{ secrets.GITHUB_TOKEN }} -i docs/labels.json

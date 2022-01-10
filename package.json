@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/yapyeeqiang/issues-label/issues"
   },
-  "homepage": "https://github.com/yapyeeqiang/issues-label#readme"
+  "homepage": "https://github.com/yapyeeqiang/issues-label#readme",
+  "dependencies": {
+    "github-label-template": "^0.0.2"
+  }
 }
