@@ -11,7 +11,7 @@ inputs:
         description: 'GitHub token for repo'
         required: true
     owner-name:
-        description: 'Owner name is user or organisation'
+        description: 'Owner name is user or organization'
         required: true
     repository-name:
         description: 'GitHub repo name'
