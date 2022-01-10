@@ -1,4 +1,4 @@
-name: Import issue labels
+name: Import labels
 on:
     push:
         paths:
